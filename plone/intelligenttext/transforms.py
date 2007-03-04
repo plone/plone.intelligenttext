@@ -1,7 +1,7 @@
 from htmlentitydefs import entitydefs
 import re
 
-def convertWebIntelligentPlainTextToHtml(orig, data=None, tab_width=4, **kwargs):
+def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     """Converts text/x-web-intelligent to text/html
     """
     urlRegexp = re.compile(r'((?:ftp|https?)://(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z])\b(?:\d+)?(?:\/[^;"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^;"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
@@ -44,9 +44,80 @@ def convertWebIntelligentPlainTextToHtml(orig, data=None, tab_width=4, **kwargs)
 
     text = text.encode('utf-8')
     
-    if data is None:
-        return text
-    else:
-        data.setData(text)
-        return data
+    return text
             
+def convertHtmlToWebIntelligentPlainText(orig):
+    """Converts text/html to text/x-web-intelligent.
+    """
+    preRegex = re.compile(r'<\s*pre[^>]*>(.*?)<\s*/pre\s*>', re.I | re.S)
+    
+    tagWhitespaceRegex = re.compile(r'\s+((<[^>]+>)\s+)+')
+    whitespaceRegex = re.compile(r'\s+')
+    
+    tdRegex = re.compile(r'<\s*(td)([^>])*>', re.I)
+    breakRegex = re.compile(r'<\s*(br)\s*/?>', re.I)
+    startBlockRegex = re.compile(r'<\s*(dt)[^>]*>', re.I)
+    endBlockRegex = re.compile(r'<\s*/\s*(p|div|tr|ul|ol|dl)[^>]*>', re.I)
+    indentBlockRegex = re.compile(r'<\s*(blockquote|dd)[^>]*>', re.I)
+    listBlockRegex = re.compile(r'<\s*(li)[^>]*>', re.I)
+
+    tagRegex = re.compile(r'<[^>]+>', re.I | re.M)
+
+    # Save all <pre> sections and restore after other transforms
+    preSections = {}
+    def savePres(match):
+        marker = '__pre_marker__%d__' % (len(preSections),)
+        preSections[marker] = match.group(1)
+        return marker
+    text = preRegex.sub(savePres, orig)
+
+    # Make whitespace-tag-whitespace into whitespace-tag. Repeat this 
+    # in case there are directly nested tags
+    def fixTagWhitespace(match):
+        # Remove any superfluous whitespace, but preserve one leading space
+        return ' ' + whitespaceRegex.sub('', match.group(0))
+    text = tagWhitespaceRegex.sub(fixTagWhitespace, text)
+
+    # Make all whitespace into a single space
+    text = whitespaceRegex.sub(' ', text)
+
+    # Fix entities
+    text = text.replace('&nbsp;', ' ')
+    for entity, letter in entitydefs.items():
+        # Do &lt; and &gt; later, else we may be creating what looks like 
+        # tags
+        if entity != 'lt' and entity != 'gt':
+            text = text.replace('&' + entity + ';', letter)
+
+    # XXX: Remove <head>, <script>, <style> ?
+
+    # Make tabs out of td's
+    text = tdRegex.sub('\t', text)
+
+    # Make br's and li's into newlines
+    text = breakRegex.sub('\n', text)
+
+    # Make the start of list blocks into paragraphs
+    text = startBlockRegex.sub('\n\n', text)
+
+    # Make the close of p's, div's and tr's into paragraphs
+    text = endBlockRegex.sub('\n\n', text)
+
+    # Make blockquotes and dd blocks indented
+    text = indentBlockRegex.sub('\n\n  ', text)
+
+    # Make list items indented and prefixed with -
+    text = listBlockRegex.sub('\n\n  - ', text)
+
+    # Remove other tags
+    text = tagRegex.sub('', text)
+
+    # Fix < and > entities
+    text = text.replace('&lt;', '<')
+    text = text.replace('&gt;', '>')
+
+    # Restore pres
+    for marker, section in preSections.items():
+        text = text.replace(marker, '\n\n' + section + '\n\n')
+    
+    return text
