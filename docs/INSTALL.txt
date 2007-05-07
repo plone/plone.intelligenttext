@@ -1,5 +1,5 @@
 plone.intelligenttext Installation
-=======================
+==================================
 
  * When you're reading this you have probably already run 
    ``easy_install plone.intelligenttext``. Find out how to install setuptools
