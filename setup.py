@@ -1,14 +1,13 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '1.0-beta1'
+version = '1.0b2'
 
 setup(name='plone.intelligenttext',
       version=version,
       description="Provides transforms from text/x-web-intelligent to text/html and vice versa.",
       long_description="""\
 """,
-      # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",
@@ -28,7 +27,4 @@ setup(name='plone.intelligenttext',
       install_requires=[
         'setuptools',
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
       )

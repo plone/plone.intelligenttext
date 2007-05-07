@@ -121,4 +121,3 @@ def convertHtmlToWebIntelligentPlainText(orig):
         text = text.replace(marker, '\n\n' + section + '\n\n')
     
     return text
-

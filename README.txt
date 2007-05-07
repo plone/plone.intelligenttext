@@ -1,5 +1,5 @@
-plone.intelligenttext Package Readme
-=========================
+plone.intelligenttext
+=====================
 
 Overview
 --------

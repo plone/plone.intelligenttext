@@ -2,11 +2,16 @@ Changelog for plone.intelligenttext
 
     (name of developer listed in brackets)
 
+plone.intelligenttext - 1.0b2
+
+    - Some documentation cleanup.
+      [hannosch]
+
 plone.intelligenttext - 1.0-beta1
 
     - move into plone namespace and integration to PloneTransforms and 
       MimetypesRegistry
-      (diefenbach)
+      [diefenbach]
     
 plone.intelligenttext - 0.1 Unreleased
 
