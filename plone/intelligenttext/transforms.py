@@ -4,7 +4,25 @@ import re
 def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     """Converts text/x-web-intelligent to text/html
     """
-    urlRegexp = re.compile(r'((?:ftp|https?)://(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z])\b(?:\d+)?(?:\/[^;"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^;"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
+    # very long urls are abbreviated to allow nicer layout
+    def abbreviateUrl(url, max = 60,  ellipsis = "[&hellip;]"):
+        if len(url) < max:
+            return url
+        protocolend = url.find("//")
+        if protocolend == -1:
+            protocol = ""
+        else:
+            protocol = url[0 : protocolend+2]
+            url = url[protocolend+2 : ]
+        list = url.split("/")
+        if len(list) < 3 or len(list[0])+len(list[-1] )>max:
+            url = protocol + url
+            center = (max-5)/2
+            return url[:center] + ellipsis + url[-center:]
+        
+        return protocol + list[0] +"/" +ellipsis + "/" + list[-1]
+
+    urlRegexp = re.compile(r'((?:ftp|https?)://(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z])\b(?:\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
     emailRegexp = re.compile(r'["=]?(\b[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}\b)', re.I|re.S|re.U)
     indentRegexp = re.compile(r'^(\s+)', re.M|re.U)
     
@@ -23,13 +41,16 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     # Replace hyperlinks with clickable <a> tags
     def replaceURL(match):
         url = match.groups()[0]
-        return '<a href="%s">%s</a>' % (url, url)
+        # rel="nofollow" shall avoid spamming
+        return '<a href="%s" rel="nofollow">%s</a>' % (url, abbreviateUrl(url))
     text = urlRegexp.subn(replaceURL, text)[0]
     
     # Replace email strings with mailto: links
     def replaceEmail(match):
         url = match.groups()[0]
-        return '<a href="mailto:%s">%s</a>' % (url, url)
+        # following unicode substitutions shall avoid email spam crawlers to pickup email addresses
+        url = url.replace('@', '&#0064;');
+        return '<a href="&#0109;ailto&#0058;%s">%s</a>' % (url, url)
     text = emailRegexp.subn(replaceEmail, text)[0]
 
     # Make leading whitespace on a line into &nbsp; to preserve indents
