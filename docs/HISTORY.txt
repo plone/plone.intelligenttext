@@ -2,6 +2,11 @@ Changelog for plone.intelligenttext
 
     (name of developer listed in brackets)
 
+plone.intelligenttext - 1.0
+
+    - released version 1.0
+      [diefenbach]
+
 plone.intelligenttext - 1.0b2
 
     - Some documentation cleanup.
