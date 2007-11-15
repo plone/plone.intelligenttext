@@ -87,13 +87,9 @@ Accentuated characters, like in French, should be html escaped.
 
 Links with ampersands in them should be handled correctly.
 
-    >>> orig = "http://sourceforge.net/forum/forum.php?thread_id=1719815&amp;forum_id=47987"
+    >>> orig = "http://google.com/ask?question=everything&answer=42"
     >>> convertWebIntelligentPlainTextToHtml(orig)
-    '<a href="http://sourceforge.net/forum/forum.php?thread_id=1719815&amp;amp;forum_id=47987" rel="nofollow">http://sourceforge.net/foru[&hellip;]9815&amp;amp;forum_id=47987</a>'
-
-XXX Actually, this is wrong.  We should check for unescaped ampersands
-like in "?question=all&answer=42".  But we leave that for the moment.
-
+    '<a href="http://google.com/ask?question=everything&answer=42" rel="nofollow">http://google.com/ask?question=everything&amp;answer=42</a>'
 
 We want to make sure that the text representation of long urls is not too long.
 
