@@ -27,6 +27,8 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     indentRegexp = re.compile(r'^(\s+)', re.M|re.U)
     
     text = orig
+    if text is None:
+        text = ''
     if not isinstance(text, unicode):
         text = unicode(text, 'utf-8', 'replace')
     
@@ -90,6 +92,8 @@ def convertHtmlToWebIntelligentPlainText(orig):
         marker = '__pre_marker__%d__' % (len(preSections),)
         preSections[marker] = match.group(1)
         return marker
+    if orig is None:
+        orig = ''
     text = preRegex.sub(savePres, orig)
 
     # Make whitespace-tag-whitespace into whitespace-tag. Repeat this 

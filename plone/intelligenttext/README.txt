@@ -42,6 +42,11 @@ An email address should be clickable too:
     >>> convertWebIntelligentPlainTextToHtml(orig)
     'A test <a href="&#0109;ailto&#0058;test&#0064;test.com">test&#0064;test.com</a> of mailto'
 
+Some basic fallback would be nice:
+
+    >>> convertWebIntelligentPlainTextToHtml(None)
+    ''
+
 Text, links and email addressed can be split over multiple lines.
 
     >>> orig = """A test
@@ -113,6 +118,11 @@ this means that tags must be stripped.
     >>> orig = "Some <b>bold</b> text."
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'Some bold text.'
+
+Some basic fallback would be nice:
+
+    >>> convertHtmlToWebIntelligentPlainText(None)
+    ''
 
 Line breaks need to be handled.
 
