@@ -43,8 +43,13 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     # Replace hyperlinks with clickable <a> tags
     def replaceURL(match):
         url = match.groups()[0]
+        linktext = abbreviateUrl(url)
+        # In urls we need the revert our earlier change to the ampersands.
+        # We do not want something like:
+        # http://google.com/ask?question=everything&amp;answer=42
+        url = url.replace('&amp;', '&')
         # rel="nofollow" shall avoid spamming
-        return '<a href="%s" rel="nofollow">%s</a>' % (url, abbreviateUrl(url))
+        return '<a href="%s" rel="nofollow">%s</a>' % (url, linktext)
     text = urlRegexp.subn(replaceURL, text)[0]
     
     # Replace email strings with mailto: links
