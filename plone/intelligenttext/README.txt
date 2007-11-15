@@ -85,7 +85,7 @@ Accentuated characters, like in French, should be html escaped.
     >>> convertWebIntelligentPlainTextToHtml(orig)
     'The French use &eacute; &agrave; &ocirc; &ugrave; &agrave; and &ccedil;.'
 
-Links with ampersands in them should be handles correctly.
+Links with ampersands in them should be handled correctly.
 
     >>> orig = "http://sourceforge.net/forum/forum.php?thread_id=1719815&amp;forum_id=47987"
     >>> convertWebIntelligentPlainTextToHtml(orig)
@@ -106,3 +106,85 @@ We want to make sure that the text representation of long urls is not too long.
     >>> url2 = "https://secure.somehost.net/a/path/logout.do;jsessionid=0FB57237D0D20D377E74D29031090FF2.A11"
     >>> convertWebIntelligentPlainTextToHtml(url2)
     '<a href="https://secure.somehost.net/a/path/logout.do;jsessionid=0FB57237D0D20D377E74D29031090FF2.A11" rel="nofollow">https://secure.somehost.net[&hellip;]0D20D377E74D29031090FF2.A11</a>'
+
+
+Html to intelligent text
+------------------------
+
+We want the transform to work the other way around too.  For starters
+this means that tags must be stripped.
+
+    >>> orig = "Some <b>bold</b> text."
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'Some bold text.'
+
+Line breaks need to be handled.
+
+    >>> orig = "Some<br/>broken<BR/>text<br />"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'Some\nbroken\ntext\n'
+    
+Starting blocks:
+
+    >>> orig = "A block<dt>there</dt>"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'A block\n\nthere'
+    
+Ending blocks:
+
+    >>> orig = "<p>Paragraph</p>Other stuff"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'Paragraph\n\nOther stuff'
+        
+Indenting blocks:
+
+    >>> orig = "An<blockquote>Indented blockquote</blockquote>"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'An\n\n  Indented blockquote'
+    
+Lists:
+
+    >>> orig = "A list<ul><li>Foo</li><li>Bar</li></ul>"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'A list\n\n  - Foo\n\n  - Bar\n\n'
+
+Non breaking spaces:
+
+    >>> orig = "Some space &nbsp;&nbsp;here"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'Some space   here'
+        
+Angles:
+
+    >>> orig = "Watch &lt;this&gt; and &lsaquo;that&rsaquo;"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'Watch <this> and &#8249;that&#8250;'
+    
+Bullets:
+
+    >>> orig = "A &bull; bullet"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'A &#8226; bullet'
+        
+Ampersands:
+
+    >>> orig = "An &amp; ampersand"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'An & ampersand'
+        
+Entities:
+
+    >>> orig = "A &mdash; dash"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'A &#8212; dash'
+        
+Pre formatted text:
+
+    >>> orig = "A <pre>  pre\n  section</pre>"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'A \n\n  pre\n  section\n\n'
+        
+White space:
+    >>> orig = "A \n\t spaceful, <b>  tag-filled</b>, <b> <i>  snippet\n</b></i>"
+    >>> convertHtmlToWebIntelligentPlainText(orig)
+    'A spaceful, tag-filled, snippet '
