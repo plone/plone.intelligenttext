@@ -120,6 +120,12 @@ Port numbers should be recognized as linkworthy.
     >>> convertWebIntelligentPlainTextToHtml(url)
     '<a href="http://plone3.freeman-centre.ac.uk:8080/caldav" rel="nofollow">http://plone3.freeman-centre.ac.uk:8080/caldav</a>'
 
+localhost should be good.
+
+    >>> url = "http://localhost:8080/"
+    >>> convertWebIntelligentPlainTextToHtml(url)
+    '<a href="http://localhost:8080/" rel="nofollow">http://localhost:8080/</a>'
+
 Unicode should be fine too.
 
     >>> text = u"Línk tö http://foo.ni"
