@@ -51,6 +51,7 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
         # Also with <some link> we should only link to some link, not
         # including the brackets.
         end = ''
+        # XXX Probably better to fix the regex above.  Maurits
         if url.endswith('&gt;'):
             url = url[:-len('&gt;')]
             linktext = linktext[:-len('&gt;')]
