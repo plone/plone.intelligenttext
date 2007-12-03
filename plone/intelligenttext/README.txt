@@ -114,6 +114,12 @@ If there is a url in brackets, the link should not contain one of the brackets.
     >>> convertWebIntelligentPlainTextToHtml(bracket_url)
     '&lt;<a href="http://plone.org/products/poi/issues/155" rel="nofollow">http://plone.org/products/poi/issues/155</a>&gt;'
 
+Port numbers should be recognized as linkworthy.
+
+    >>> url = "http://plone3.freeman-centre.ac.uk:8080/caldav"
+    >>> convertWebIntelligentPlainTextToHtml(url)
+    '<a href="http://plone3.freeman-centre.ac.uk:8080/caldav" rel="nofollow">http://plone3.freeman-centre.ac.uk:8080/caldav</a>'
+
 Unicode should be fine too.
 
     >>> text = u"Línk tö http://foo.ni"
