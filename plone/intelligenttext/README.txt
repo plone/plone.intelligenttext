@@ -126,6 +126,16 @@ localhost should be good.
     >>> convertWebIntelligentPlainTextToHtml(url)
     '<a href="http://localhost:8080/" rel="nofollow">http://localhost:8080/</a>'
 
+Check ip numbers too while we are at it.
+
+    >>> url = "http://127.0.0.1:8080/"
+    >>> convertWebIntelligentPlainTextToHtml(url)
+    '<a href="http://127.0.0.1:8080/" rel="nofollow">http://127.0.0.1:8080/</a>'
+    >>> convertWebIntelligentPlainTextToHtml("http://255.255.255.255")
+    '<a href="http://255.255.255.255" rel="nofollow">http://255.255.255.255</a>'
+    >>> convertWebIntelligentPlainTextToHtml("http://0.0.0.0")
+    '<a href="http://0.0.0.0" rel="nofollow">http://0.0.0.0</a>'
+
 Unicode should be fine too.
 
     >>> text = u"Línk tö http://foo.ni"
