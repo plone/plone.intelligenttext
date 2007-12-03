@@ -108,6 +108,11 @@ We want to make sure that the text representation of long urls is not too long.
     >>> convertWebIntelligentPlainTextToHtml(url2)
     '<a href="https://secure.somehost.net/a/path/logout.do;jsessionid=0FB57237D0D20D377E74D29031090FF2.A11" rel="nofollow">https://secure.somehost.net[&hellip;]0D20D377E74D29031090FF2.A11</a>'
 
+If there is a url in brackets, the link should not contain one of the brackets.
+
+    >>> bracket_url = "<http://plone.org/products/poi/issues/155>"
+    >>> convertWebIntelligentPlainTextToHtml(bracket_url)
+    '&lt;<a href="http://plone.org/products/poi/issues/155" rel="nofollow">http://plone.org/products/poi/issues/155</a>&gt;'
 
 Html to intelligent text
 ------------------------
