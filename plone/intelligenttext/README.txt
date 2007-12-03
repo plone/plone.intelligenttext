@@ -135,6 +135,9 @@ Check ip numbers too while we are at it.
     '<a href="http://255.255.255.255" rel="nofollow">http://255.255.255.255</a>'
     >>> convertWebIntelligentPlainTextToHtml("http://0.0.0.0")
     '<a href="http://0.0.0.0" rel="nofollow">http://0.0.0.0</a>'
+    >>> convertWebIntelligentPlainTextToHtml("http://1.2.3.4.5")
+    http://1.2.3.4.5
+
 
 Unicode should be fine too.
 
