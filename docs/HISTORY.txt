@@ -2,7 +2,7 @@ Changelog for plone.intelligenttext
 
     (name of developer listed in brackets)
 
-plone.intelligenttext - 1.0.1 Unreleased
+plone.intelligenttext - 1.0.1 Released December 4, 2007
 
     - Accept ip addresses as valid urls.
       [maurits]
@@ -45,7 +45,7 @@ plone.intelligenttext - 1.0-beta1
       MimetypesRegistry
       [diefenbach]
     
-plone.intelligenttext - 0.1 Unreleased
+plone.intelligenttext - 0.1
 
     - Initial development by Martin Aspeli (optilude@gmx.net). For further 
       informations see http://dev.plone.org/collective/browser/intelligenttext/
