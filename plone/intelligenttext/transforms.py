@@ -8,10 +8,9 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     def abbreviateUrl(url, max = 60,  ellipsis = "[&hellip;]"):
         if len(url) < max:
             return url
+        protocol = ""
         protocolend = url.find("//")
-        if protocolend == -1:
-            protocol = ""
-        else:
+        if protocolend != -1:
             protocol = url[0 : protocolend+2]
             url = url[protocolend+2 : ]
         list = url.split("/")

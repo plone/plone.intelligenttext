@@ -2,6 +2,12 @@ Changelog for plone.intelligenttext
 
     (name of developer listed in brackets)
 
+plone.intelligenttext - 1.0.2 Unreleased
+
+    - Minor change in code path, really only to get 100 percent test
+      coverage.
+      [maurits]
+
 plone.intelligenttext - 1.0.1 Released December 4, 2007
 
     - Accept ip addresses as valid urls.
