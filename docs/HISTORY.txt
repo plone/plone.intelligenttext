@@ -2,6 +2,10 @@ Changelog for plone.intelligenttext
 
     (name of developer listed in brackets)
 
+plone.intelligenttext - Unreleased
+
+    - nothing yet
+
 plone.intelligenttext - 1.0.2 Released July 17, 2008
 
     - When convertWebIntelligentPlainTextToHtml is called with an
