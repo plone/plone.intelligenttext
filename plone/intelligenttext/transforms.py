@@ -1,6 +1,7 @@
 from htmlentitydefs import entitydefs
 import re
 
+
 def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     """Converts text/x-web-intelligent to text/html
     """
@@ -9,33 +10,35 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
         tab_width = int(tab_width)
     except ValueError:
         tab_width=4
-    # very long urls are abbreviated to allow nicer layout
-    def abbreviateUrl(url, max = 60,  ellipsis = "[&hellip;]"):
+
+    def abbreviateUrl(url, max = 60, ellipsis = "[&hellip;]"):
+        """very long urls are abbreviated to allow nicer layout
+        """
         if len(url) < max:
             return url
         protocol = ""
         protocolend = url.find("//")
         if protocolend != -1:
-            protocol = url[0 : protocolend+2]
-            url = url[protocolend+2 : ]
+            protocol = url[0:protocolend+2]
+            url = url[protocolend+2:]
         list = url.split("/")
-        if len(list) < 3 or len(list[0])+len(list[-1] )>max:
+        if len(list) < 3 or len(list[0])+len(list[-1])>max:
             url = protocol + url
             center = (max-5)/2
             return url[:center] + ellipsis + url[-center:]
-        
+
         return protocol + list[0] +"/" +ellipsis + "/" + list[-1]
 
     urlRegexp = re.compile(r'((?:ftp|https?)://(localhost|([12]?[0-9]{1,2}.){3}([12]?[0-9]{1,2})|(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z]))\b(?::\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
     emailRegexp = re.compile(r'["=]?(\b[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}\b)', re.I|re.S|re.U)
     indentRegexp = re.compile(r'^(\s+)', re.M|re.U)
-    
+
     text = orig
     if text is None:
         text = ''
     if not isinstance(text, unicode):
         text = unicode(text, 'utf-8', 'replace')
-    
+
     # Do &amp; separately, else, it may replace an already-inserted & from
     # an entity with &amp;, so < becomes &lt; becomes &amp;lt;
     text = text.replace('&', '&amp;')
@@ -43,9 +46,10 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     for entity, letter in entitydefs.items():
         if entity != 'amp':
             text = text.replace(letter.decode('latin-1'), '&' + entity + ';')
-        
-    # Replace hyperlinks with clickable <a> tags
+
     def replaceURL(match):
+        """Replace hyperlinks with clickable <a> tags
+        """
         url = match.groups()[0]
         linktext = abbreviateUrl(url)
         # In urls we need the revert our earlier change to the ampersands.
@@ -64,37 +68,41 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
         # rel="nofollow" shall avoid spamming
         return '<a href="%s" rel="nofollow">%s</a>%s' % (url, linktext, end)
     text = urlRegexp.subn(replaceURL, text)[0]
-    
-    # Replace email strings with mailto: links
+
     def replaceEmail(match):
+        """Replace email strings with mailto: links
+        """
         url = match.groups()[0]
-        # following unicode substitutions shall avoid email spam crawlers to pickup email addresses
-        url = url.replace('@', '&#0064;');
+        # following unicode substitutions shall avoid email spam
+        # crawlers to pickup email addresses
+        url = url.replace('@', '&#0064;')
         return '<a href="&#0109;ailto&#0058;%s">%s</a>' % (url, url)
     text = emailRegexp.subn(replaceEmail, text)[0]
 
-    # Make leading whitespace on a line into &nbsp; to preserve indents
     def indentWhitespace(match):
+        """Make leading whitespace on a line into &nbsp; to preserve indents
+        """
         indent = match.groups()[0]
         indent = indent.replace(' ', '&nbsp;')
         return indent.replace('\t', '&nbsp;' * tab_width)
     text = indentRegexp.subn(indentWhitespace, text)[0]
-    
+
     # Finally, make \n's into br's
     text = text.replace('\n', '<br />')
 
     text = text.encode('utf-8')
-    
+
     return text
-            
+
+
 def convertHtmlToWebIntelligentPlainText(orig):
     """Converts text/html to text/x-web-intelligent.
     """
     preRegex = re.compile(r'<\s*pre[^>]*>(.*?)<\s*/pre\s*>', re.I | re.S)
-    
+
     tagWhitespaceRegex = re.compile(r'\s+((<[^>]+>)\s+)+')
     whitespaceRegex = re.compile(r'\s+')
-    
+
     tdRegex = re.compile(r'<\s*(td)([^>])*>', re.I)
     breakRegex = re.compile(r'<\s*(br)\s*/?>', re.I)
     startBlockRegex = re.compile(r'<\s*(dt)[^>]*>', re.I)
@@ -106,17 +114,19 @@ def convertHtmlToWebIntelligentPlainText(orig):
 
     # Save all <pre> sections and restore after other transforms
     preSections = {}
+
     def savePres(match):
-        marker = '__pre_marker__%d__' % (len(preSections),)
+        marker = '__pre_marker__%d__' % len(preSections)
         preSections[marker] = match.group(1)
         return marker
     if orig is None:
         orig = ''
     text = preRegex.sub(savePres, orig)
 
-    # Make whitespace-tag-whitespace into whitespace-tag. Repeat this 
-    # in case there are directly nested tags
     def fixTagWhitespace(match):
+        """Make whitespace-tag-whitespace into whitespace-tag.
+        Repeat this in case there are directly nested tags.
+        """
         # Remove any superfluous whitespace, but preserve one leading space
         return ' ' + whitespaceRegex.sub('', match.group(0))
     text = tagWhitespaceRegex.sub(fixTagWhitespace, text)
@@ -127,7 +137,7 @@ def convertHtmlToWebIntelligentPlainText(orig):
     # Fix entities
     text = text.replace('&nbsp;', ' ')
     for entity, letter in entitydefs.items():
-        # Do &lt; and &gt; later, else we may be creating what looks like 
+        # Do &lt; and &gt; later, else we may be creating what looks like
         # tags
         if entity != 'lt' and entity != 'gt':
             text = text.replace('&' + entity + ';', letter)
@@ -162,5 +172,5 @@ def convertHtmlToWebIntelligentPlainText(orig):
     # Restore pres
     for marker, section in preSections.items():
         text = text.replace(marker, '\n\n' + section + '\n\n')
-    
+
     return text
