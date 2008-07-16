@@ -147,12 +147,39 @@ https is accepted.
     >>> convertWebIntelligentPlainTextToHtml("https://localhost")
     '<a href="https://localhost" rel="nofollow">https://localhost</a>'
 
-
 Unicode should be fine too.
 
     >>> text = u"Línk tö http://foo.ni"
     >>> convertWebIntelligentPlainTextToHtml(text)
     'L&Atilde;&shy;nk t&Atilde;&para; <a href="http://foo.ni" rel="nofollow">http://foo.ni</a>'
+
+Leading whitespace is converted to non breaking spaces to preserve
+indentation:
+
+    >>> text = "Some text.\n    And some indentation."
+    >>> convertWebIntelligentPlainTextToHtml(text)
+    'Some text.<br />&nbsp;&nbsp;&nbsp;&nbsp;And some indentation.'
+
+Leading tabs are converted to spaces.  The default is 4:
+
+    >>> text = "Before the tab:\n\tand after the tab."
+    >>> convertWebIntelligentPlainTextToHtml(text)
+    'Before the tab:<br />&nbsp;&nbsp;&nbsp;&nbsp;and after the tab.'
+
+You can specify a different tab width:
+
+    >>> convertWebIntelligentPlainTextToHtml(text, tab_width=2)
+    'Before the tab:<br />&nbsp;&nbsp;and after the tab.'
+
+In case the tab width is not an integer, we try to convert it:
+
+    >>> convertWebIntelligentPlainTextToHtml(text, tab_width='2')
+    'Before the tab:<br />&nbsp;&nbsp;and after the tab.'
+
+When that fails we fall back to 4 spaces:
+
+    >>> convertWebIntelligentPlainTextToHtml(text, tab_width='1.5')
+    'Before the tab:<br />&nbsp;&nbsp;&nbsp;&nbsp;and after the tab.'
 
 
 Html to intelligent text

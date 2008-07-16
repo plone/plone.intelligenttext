@@ -4,6 +4,11 @@ Changelog for plone.intelligenttext
 
 plone.intelligenttext - 1.0.2 Unreleased
 
+    - When convertWebIntelligentPlainTextToHtml is called with an
+      explicit tab_width we try to make an integer of that ('2' -> 2).
+      When that fails we use the default of 4.
+      [maurits]
+
     - Minor change in code path, really only to get 100 percent test
       coverage.
       [maurits]

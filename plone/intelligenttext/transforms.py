@@ -4,6 +4,11 @@ import re
 def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
     """Converts text/x-web-intelligent to text/html
     """
+    try:
+        # tab_width could be a string like '4'
+        tab_width = int(tab_width)
+    except ValueError:
+        tab_width=4
     # very long urls are abbreviated to allow nicer layout
     def abbreviateUrl(url, max = 60,  ellipsis = "[&hellip;]"):
         if len(url) < max:
