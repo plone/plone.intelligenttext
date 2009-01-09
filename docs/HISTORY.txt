@@ -4,7 +4,8 @@ Changelog for plone.intelligenttext
 
 plone.intelligenttext - Unreleased
 
-    - nothing yet
+    - Specify package dependencies.
+      [hannosch]
 
 plone.intelligenttext - 1.0.2 Released July 17, 2008
 
