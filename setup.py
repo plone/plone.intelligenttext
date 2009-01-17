@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '1.0.3dev'
+version = '2.0'
 
 setup(name='plone.intelligenttext',
       version=version,

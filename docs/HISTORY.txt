@@ -2,7 +2,7 @@ Changelog for plone.intelligenttext
 
     (name of developer listed in brackets)
 
-plone.intelligenttext - Unreleased
+plone.intelligenttext - 2.0 Unreleased
 
     - Specify package dependencies.
       [hannosch]
