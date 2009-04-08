@@ -52,10 +52,6 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
         """
         url = match.groups()[0]
         linktext = abbreviateUrl(url)
-        # In urls we need the revert our earlier change to the ampersands.
-        # We do not want something like:
-        # http://google.com/ask?question=everything&amp;answer=42
-        url = url.replace('&amp;', '&')
         # Also with <some link> we should only link to some link, not
         # including the brackets.
         end = ''
