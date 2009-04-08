@@ -83,6 +83,8 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
         return indent.replace('\t', '&nbsp;' * tab_width)
     text = indentRegexp.subn(indentWhitespace, text)[0]
 
+    # convert windows line endings
+    text = text.replace('\r\n', '\n')
     # Finally, make \n's into br's
     text = text.replace('\n', '<br />')
 

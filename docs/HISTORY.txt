@@ -4,7 +4,10 @@ Changelog
 1.0.3 - unreleased
 ------------------
 
-- urls in html really should have the ampersand quoted.
+- Handle windows line endings.
+  [elro]
+
+- URLs in html really should have the ampersand quoted.
   [elro]
 
 - Specify package dependencies.
