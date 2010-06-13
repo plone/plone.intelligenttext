@@ -1,16 +1,11 @@
-import unittest
 import doctest
+import unittest
 
-optionflags = (doctest.ELLIPSIS |
-               doctest.NORMALIZE_WHITESPACE)
+optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
 
 
 def test_suite():
     return unittest.TestSuite([
-        doctest.DocFileSuite('README.txt', 
+        doctest.DocFileSuite('README.txt',
                              optionflags=optionflags,)
         ])
-
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')

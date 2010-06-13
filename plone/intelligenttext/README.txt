@@ -2,7 +2,7 @@ Intelligent text
 ================
 
 Started by Martin Aspeli
- 
+
 This package contains a and a transform (for example for
 portal_transforms in CMF) that is capable converting plain text into
 HTML where line breaks and indentation is preserved, and web and email
@@ -12,7 +12,7 @@ Basic usage
 -----------
 
 The basic usage is turning intelligenttext into html:
- 
+
     >>> from plone.intelligenttext.transforms import convertWebIntelligentPlainTextToHtml
     >>> text = 'Go to http://plone.org'
     >>> convertWebIntelligentPlainTextToHtml(text)
@@ -66,7 +66,7 @@ Having the links at the end of the line should not have adverse effects.
     >>> convertWebIntelligentPlainTextToHtml(orig)
     'A test<br />URL: <a href="http://test.com" rel="nofollow">http://test.com</a><br />Mail: <a href="&#0109;ailto&#0058;test&#0064;test.com">test&#0064;test.com</a><br />URL: <a href="http://foo.com" rel="nofollow">http://foo.com</a>'
 
-    
+
 Indentation should be preserved.
 
     >>> orig = """A test
@@ -202,25 +202,25 @@ Line breaks need to be handled.
     >>> orig = "Some<br/>broken<BR/>text<br />"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'Some\nbroken\ntext\n'
-    
+
 Starting blocks:
 
     >>> orig = "A block<dt>there</dt>"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'A block\n\nthere'
-    
+
 Ending blocks:
 
     >>> orig = "<p>Paragraph</p>Other stuff"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'Paragraph\n\nOther stuff'
-        
+
 Indenting blocks:
 
     >>> orig = "An<blockquote>Indented blockquote</blockquote>"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'An\n\n  Indented blockquote'
-    
+
 Lists:
 
     >>> orig = "A list<ul><li>Foo</li><li>Bar</li></ul>"
@@ -232,37 +232,37 @@ Non breaking spaces:
     >>> orig = "Some space &nbsp;&nbsp;here"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'Some space   here'
-        
+
 Angles:
 
     >>> orig = "Watch &lt;this&gt; and &lsaquo;that&rsaquo;"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'Watch <this> and &#8249;that&#8250;'
-    
+
 Bullets:
 
     >>> orig = "A &bull; bullet"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'A &#8226; bullet'
-        
+
 Ampersands:
 
     >>> orig = "An &amp; ampersand"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'An & ampersand'
-        
+
 Entities:
 
     >>> orig = "A &mdash; dash"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'A &#8212; dash'
-        
+
 Pre formatted text:
 
     >>> orig = "A <pre>  pre\n  section</pre>"
     >>> convertHtmlToWebIntelligentPlainText(orig)
     'A \n\n  pre\n  section\n\n'
-        
+
 White space:
     >>> orig = "A \n\t spaceful, <b>  tag-filled</b>, <b> <i>  snippet\n</b></i>"
     >>> convertHtmlToWebIntelligentPlainText(orig)

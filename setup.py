@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
-version = '1.0.4'
+version = '2.0'
 
 setup(name='plone.intelligenttext',
       version=version,
       description="Provides transforms from text/x-web-intelligent to text/html and vice versa.",
-      long_description="""\
-""",
+      long_description=open("README.txt").read() + "\n" +
+                       open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",
@@ -16,7 +16,7 @@ setup(name='plone.intelligenttext',
       keywords='',
       author='Kai Diefenbach',
       author_email='kai.diefenbach@iqpp.de',
-      url='http://svn.plone.org/svn/plone/plone.intelligenttext',
+      url='http://pypi.python.org/pypi/plone.intelligenttext',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['plone'],
