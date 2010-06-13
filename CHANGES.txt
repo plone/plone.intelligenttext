@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0 - unreleased
+2.0 - 2010-06-13
 ----------------
 
 - Package metadata cleanup.
