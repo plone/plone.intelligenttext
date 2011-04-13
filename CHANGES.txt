@@ -1,8 +1,12 @@
 Changelog
 =========
 
+
 2.0.2 - unreleased
 ------------------
+
+- Add MANIFEST.in.
+  [WouterVH]
 
 
 2.0.1 - 2010-07-18
@@ -11,11 +15,20 @@ Changelog
 - Update license to GPL version 2 only.
   [hannosch]
 
+
 2.0 - 2010-06-13
 ----------------
 
 - Package metadata cleanup.
   [hannosch]
+
+
+2.0a1 - 2009-04-04
+------------------
+
+- Specify package dependencies.
+  [hannosch]
+
 
 1.0.3 - 2009-04-09
 ------------------
@@ -29,17 +42,18 @@ Changelog
 - Specify package dependencies.
   [hannosch]
 
+
 1.0.2 - 2008-07-17
 ------------------
 
-- When convertWebIntelligentPlainTextToHtml is called with an
-  explicit tab_width we try to make an integer of that ('2' -> 2).
-  When that fails we use the default of 4.
+- When convertWebIntelligentPlainTextToHtml is called with an explicit tab_width
+  we try to make an integer of that ('2' -> 2). When that fails we use the default of 4.
   [maurits]
 
 - Minor change in code path, really only to get 100 percent test
   coverage.
   [maurits]
+
 
 1.0.1 - 2007-12-04
 ------------------
@@ -54,8 +68,7 @@ Changelog
   Fixes http://plone.org/products/poi/issues/156
   [maurits]
 
-- If there is a url in brackets, the link should not contain one
-  of the brackets.
+- If there is a url in brackets, the link should not contain one of the brackets.
   Fixes http://plone.org/products/poi/issues/155 
   [maurits]
 
@@ -66,32 +79,36 @@ Changelog
 - Accept input of None to our transforms.
   [maurits]
 
-- Add unit tests (mostly taken from Products.intelligenttext)
+- Add unit tests (mostly taken from Products.intelligenttext).
   [maurits]
 
-1.0
----
 
-- Released version 1.0
+1.0 - 2007-08-15
+----------------
+
+- Released version 1.0.
   [diefenbach]
 
-1.0b2
------
+
+1.0b2 - 2007-05-07
+------------------
 
 - Some documentation cleanup.
   [hannosch]
 
-1.0-beta1
----------
 
-- move into plone namespace and integration to PloneTransforms and
-  MimetypesRegistry
+1.0-beta1 - 2007-04-07
+----------------------
+
+- Move into plone namespace and integration to PloneTransforms and
+  MimetypesRegistry/
   [diefenbach]
+
 
 0.1
 ---
 
-- Initial development by Martin Aspeli (optilude@gmx.net). For further 
+- Initial development by Martin Aspeli (optilude@gmx.net). For further
   informations see http://dev.plone.org/collective/browser/intelligenttext/
 
 - The transform was originally based on the url_to_hyperlink transform from
