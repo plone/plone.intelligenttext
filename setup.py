@@ -25,6 +25,7 @@ setup(name='plone.intelligenttext',
       namespace_packages=['plone'],
       include_package_data=True,
       zip_safe=False,
+      test_suite="plone.intelligenttext.tests.test_suite",
       install_requires=[
         'setuptools',
       ],
