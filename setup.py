@@ -6,8 +6,8 @@ setup(name='plone.intelligenttext',
       version=version,
       description="Provides transforms from text/x-web-intelligent to "
                   "text/html and vice versa.",
-      long_description=open("README.txt").read() + "\n" +
-                       open("CHANGES.txt").read(),
+      long_description=open("README.rst").read() + "\n" +
+                       open("CHANGES.rst").read(),
       classifiers=[
           "Environment :: Web Environment",
           "Framework :: Plone",
