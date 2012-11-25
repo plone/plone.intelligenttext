@@ -5,6 +5,12 @@ Changelog
 2.0.2 - unreleased
 ------------------
 
+- Allows an easy way to extend the converter through subclassing.
+  One might want to override the regexps, or modify the HTML that one of
+  the replace* methods produces.
+  https://github.com/plone/plone.intelligenttext/pull/1
+  [dnouri]
+
 - Add MANIFEST.in.
   [WouterVH]
 
