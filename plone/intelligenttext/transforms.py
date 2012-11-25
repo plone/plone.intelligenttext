@@ -1,16 +1,45 @@
 from htmlentitydefs import entitydefs
 import re
 
+class WebIntelligentToHtmlConverter(object):
+    urlRegexp = re.compile(r'((?:ftp|https?)://(localhost|([12]?[0-9]{1,2}.){3}([12]?[0-9]{1,2})|(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z]))\b(?::\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
+    emailRegexp = re.compile(r'["=]?(\b[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}\b)', re.I|re.S|re.U)
+    indentRegexp = re.compile(r'^(\s+)', re.M|re.U)
 
-def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
-    """Converts text/x-web-intelligent to text/html
-    """
-    try:
-        # tab_width could be a string like '4'
-        tab_width = int(tab_width)
-    except ValueError:
-        tab_width=4
+    def __init__(self, orig, tab_width=4):
+        self.orig = orig
+        self.tab_width = tab_width
 
+    def __call__(self):
+        text = self.orig
+        if text is None:
+            text = ''
+        if not isinstance(text, unicode):
+            text = unicode(text, 'utf-8', 'replace')
+
+        # Do &amp; separately, else, it may replace an already-inserted & from
+        # an entity with &amp;, so < becomes &lt; becomes &amp;lt;
+        text = text.replace('&', '&amp;')
+        # Make funny characters into html entity defs
+        for entity, letter in entitydefs.items():
+            if entity != 'amp':
+                text = text.replace(
+                    letter.decode('latin-1'), '&' + entity + ';')
+
+        text = self.urlRegexp.subn(self.replaceURL, text)[0]
+        text = self.emailRegexp.subn(self.replaceEmail, text)[0]
+        text = self.indentRegexp.subn(self.indentWhitespace, text)[0]
+
+        # convert windows line endings
+        text = text.replace('\r\n', '\n')
+        # Finally, make \n's into br's
+        text = text.replace('\n', '<br />')
+
+        text = text.encode('utf-8')
+
+        return text
+
+    @staticmethod
     def abbreviateUrl(url, max = 60, ellipsis = "[&hellip;]"):
         """very long urls are abbreviated to allow nicer layout
         """
@@ -29,29 +58,12 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
 
         return protocol + list[0] +"/" +ellipsis + "/" + list[-1]
 
-    urlRegexp = re.compile(r'((?:ftp|https?)://(localhost|([12]?[0-9]{1,2}.){3}([12]?[0-9]{1,2})|(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z]))\b(?::\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
-    emailRegexp = re.compile(r'["=]?(\b[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}\b)', re.I|re.S|re.U)
-    indentRegexp = re.compile(r'^(\s+)', re.M|re.U)
-
-    text = orig
-    if text is None:
-        text = ''
-    if not isinstance(text, unicode):
-        text = unicode(text, 'utf-8', 'replace')
-
-    # Do &amp; separately, else, it may replace an already-inserted & from
-    # an entity with &amp;, so < becomes &lt; becomes &amp;lt;
-    text = text.replace('&', '&amp;')
-    # Make funny characters into html entity defs
-    for entity, letter in entitydefs.items():
-        if entity != 'amp':
-            text = text.replace(letter.decode('latin-1'), '&' + entity + ';')
-
-    def replaceURL(match):
+    @classmethod
+    def replaceURL(cls, match):
         """Replace hyperlinks with clickable <a> tags
         """
         url = match.groups()[0]
-        linktext = abbreviateUrl(url)
+        linktext = cls.abbreviateUrl(url)
         # Also with <some link> we should only link to some link, not
         # including the brackets.
         end = ''
@@ -63,8 +75,8 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
 
         # rel="nofollow" shall avoid spamming
         return '<a href="%s" rel="nofollow">%s</a>%s' % (url, linktext, end)
-    text = urlRegexp.subn(replaceURL, text)[0]
 
+    @staticmethod
     def replaceEmail(match):
         """Replace email strings with mailto: links
         """
@@ -73,25 +85,24 @@ def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
         # crawlers to pickup email addresses
         url = url.replace('@', '&#0064;')
         return '<a href="&#0109;ailto&#0058;%s">%s</a>' % (url, url)
-    text = emailRegexp.subn(replaceEmail, text)[0]
 
-    def indentWhitespace(match):
+    def indentWhitespace(self, match):
         """Make leading whitespace on a line into &nbsp; to preserve indents
         """
         indent = match.groups()[0]
         indent = indent.replace(' ', '&nbsp;')
-        return indent.replace('\t', '&nbsp;' * tab_width)
-    text = indentRegexp.subn(indentWhitespace, text)[0]
+        return indent.replace('\t', '&nbsp;' * self.tab_width)
 
-    # convert windows line endings
-    text = text.replace('\r\n', '\n')
-    # Finally, make \n's into br's
-    text = text.replace('\n', '<br />')
+def convertWebIntelligentPlainTextToHtml(orig, tab_width=4):
+    """Converts text/x-web-intelligent to text/html
+    """
+    try:
+        # tab_width could be a string like '4'
+        tab_width = int(tab_width)
+    except ValueError:
+        tab_width=4
 
-    text = text.encode('utf-8')
-
-    return text
-
+    return WebIntelligentToHtmlConverter(orig, tab_width)()
 
 def convertHtmlToWebIntelligentPlainText(orig):
     """Converts text/html to text/x-web-intelligent.
