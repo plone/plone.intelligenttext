@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.2 - unreleased
+2.0.2 (2013-01-01)
 ------------------
 
 - Allows an easy way to extend the converter through subclassing.
