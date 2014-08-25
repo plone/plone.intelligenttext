@@ -81,7 +81,7 @@ Changelog
   [maurits]
 
 - If there is a url in brackets, the link should not contain one of the brackets.
-  Fixes http://plone.org/products/poi/issues/155 
+  Fixes http://plone.org/products/poi/issues/155
   [maurits]
 
 - Fix error where ampersands in urls would get html escaped.
