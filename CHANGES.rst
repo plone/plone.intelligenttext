@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.3 (unreleased)
+2.0.3 (2015-05-11)
 ------------------
 
 - Minor cleanup: whitespace, git ignores.
