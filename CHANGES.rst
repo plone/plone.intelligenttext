@@ -5,7 +5,8 @@ Changelog
 2.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make compatible with Python 3.
+  [davisagli]
 
 
 2.0.3 (2015-05-11)

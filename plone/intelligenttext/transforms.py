@@ -1,5 +1,19 @@
-from htmlentitydefs import entitydefs
 import re
+import sys
+
+PY3 = sys.version_info[0] == 3
+if PY3:
+    from html.entities import entitydefs
+    unicode = str
+else:
+    from htmlentitydefs import entitydefs
+
+
+def safe_decode(s, encoding='utf-8', errors='strict'):
+    if isinstance(s, unicode):
+        return s
+    return s.decode(encoding)
+
 
 class WebIntelligentToHtmlConverter(object):
     urlRegexp = re.compile(r'((?:ftp|https?)://(localhost|([12]?[0-9]{1,2}.){3}([12]?[0-9]{1,2})|(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z]))\b(?::\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)', re.I|re.S|re.U)
@@ -14,8 +28,7 @@ class WebIntelligentToHtmlConverter(object):
         text = self.orig
         if text is None:
             text = ''
-        if not isinstance(text, unicode):
-            text = unicode(text, 'utf-8', 'replace')
+        text = safe_decode(text, errors='replace')
 
         # Do &amp; separately, else, it may replace an already-inserted & from
         # an entity with &amp;, so < becomes &lt; becomes &amp;lt;
@@ -24,7 +37,7 @@ class WebIntelligentToHtmlConverter(object):
         for entity, letter in entitydefs.items():
             if entity != 'amp':
                 text = text.replace(
-                    letter.decode('latin-1'), '&' + entity + ';')
+                    safe_decode(letter, 'latin-1'), '&' + entity + ';')
 
         text = self.urlRegexp.subn(self.replaceURL, text)[0]
         text = self.emailRegexp.subn(self.replaceEmail, text)[0]
@@ -40,7 +53,7 @@ class WebIntelligentToHtmlConverter(object):
         return text
 
     @staticmethod
-    def abbreviateUrl(url, max = 60, ellipsis = "[&hellip;]"):
+    def abbreviateUrl(url, max=60, ellipsis="[&hellip;]"):
         """very long urls are abbreviated to allow nicer layout
         """
         if len(url) < max:
@@ -51,12 +64,12 @@ class WebIntelligentToHtmlConverter(object):
             protocol = url[0:protocolend+2]
             url = url[protocolend+2:]
         list = url.split("/")
-        if len(list) < 3 or len(list[0])+len(list[-1])>max:
+        if len(list) < 3 or len(list[0]) + len(list[-1]) > max:
             url = protocol + url
-            center = (max-5)/2
+            center = (max-5) // 2
             return url[:center] + ellipsis + url[-center:]
 
-        return protocol + list[0] +"/" +ellipsis + "/" + list[-1]
+        return protocol + list[0] + "/" + ellipsis + "/" + list[-1]
 
     @classmethod
     def replaceURL(cls, match):
