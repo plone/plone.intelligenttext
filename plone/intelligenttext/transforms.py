@@ -3,10 +3,11 @@ import sys
 
 PY3 = sys.version_info[0] == 3
 if PY3:
-    from html.entities import entitydefs
+    from html.entities import name2codepoint
     unicode = str
+    unichr = chr
 else:
-    from htmlentitydefs import entitydefs
+    from htmlentitydefs import name2codepoint
 
 
 def safe_decode(s, encoding='utf-8', errors='strict'):
@@ -34,10 +35,9 @@ class WebIntelligentToHtmlConverter(object):
         # an entity with &amp;, so < becomes &lt; becomes &amp;lt;
         text = text.replace('&', '&amp;')
         # Make funny characters into html entity defs
-        for entity, letter in entitydefs.items():
+        for entity, codepoint in name2codepoint.items():
             if entity != 'amp':
-                text = text.replace(
-                    safe_decode(letter, 'latin-1'), '&' + entity + ';')
+                text = text.replace(unichr(codepoint), '&' + entity + ';')
 
         text = self.urlRegexp.subn(self.replaceURL, text)[0]
         text = self.emailRegexp.subn(self.replaceEmail, text)[0]
@@ -158,11 +158,11 @@ def convertHtmlToWebIntelligentPlainText(orig):
 
     # Fix entities
     text = text.replace('&nbsp;', ' ')
-    for entity, letter in entitydefs.items():
+    for entity, codepoint in name2codepoint.items():
         # Do &lt; and &gt; later, else we may be creating what looks like
         # tags
-        if entity != 'lt' and entity != 'gt':
-            text = text.replace('&' + entity + ';', letter)
+        if entity != 'lt' and entity != 'gt' and entity != 'amp':
+            text = text.replace('&' + entity + ';', '&#' + str(codepoint) + ';')
 
     # XXX: Remove <head>, <script>, <style> ?
 
@@ -190,6 +190,7 @@ def convertHtmlToWebIntelligentPlainText(orig):
     # Fix < and > entities
     text = text.replace('&lt;', '<')
     text = text.replace('&gt;', '>')
+    text = text.replace('&amp;', '&')
 
     # Restore pres
     for marker, section in preSections.items():

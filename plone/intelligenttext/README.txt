@@ -150,7 +150,7 @@ Unicode should be fine too.
 
     >>> text = u"Línk tö http://foo.ni"
     >>> bprint(convertWebIntelligentPlainTextToHtml(text))
-    L&Atilde;&shy;nk t&Atilde;&para; <a href="http://foo.ni" rel="nofollow">http://foo.ni</a>
+    L&iacute;nk t&ouml; <a href="http://foo.ni" rel="nofollow">http://foo.ni</a>
 
 Leading whitespace is converted to non breaking spaces to preserve
 indentation:
