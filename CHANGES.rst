@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.4 (unreleased)
+2.1.0 (unreleased)
 ------------------
 
 - Make compatible with Python 3.
