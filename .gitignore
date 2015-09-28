@@ -2,4 +2,4 @@
 *.pyo
 /plone.intelligenttext.egg-info/
 /dist/
-
+.tox
