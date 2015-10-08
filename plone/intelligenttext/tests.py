@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import doctest
 import unittest
 
@@ -12,8 +13,10 @@ def bprint(s):
 
 def test_suite():
     return unittest.TestSuite([
-        doctest.DocFileSuite('README.txt',
-                             globs={'bprint': bprint},
-                             encoding='utf-8',
-                             optionflags=optionflags,)
-        ])
+        doctest.DocFileSuite(
+            'README.rst',
+            globs={'bprint': bprint},
+            encoding='utf-8',
+            optionflags=optionflags,
+        )
+    ])

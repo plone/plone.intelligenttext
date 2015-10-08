@@ -5,6 +5,9 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
+- Minor cleanup (pep8, readability, ReST)
+  [jensens]
+
 - Make compatible with Python 3.
   [davisagli]
 
