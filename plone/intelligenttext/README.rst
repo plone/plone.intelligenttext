@@ -3,7 +3,7 @@ Intelligent text
 
 This package contains a transform that is capable converting plain text into HTML.
 
-Line breaks and indentation is preserved, and web and email addresses are made into clickable links.
+Line breaks and indentation are preserved, and web and email addresses are made into clickable links.
 
 Intended use is for example for portal_transforms in CMF.
 
