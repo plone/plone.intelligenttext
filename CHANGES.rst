@@ -5,11 +5,15 @@ Changelog
 2.1.0 (unreleased)
 ------------------
 
-- Minor cleanup (pep8, readability, ReST)
-  [jensens]
+New:
 
 - Make compatible with Python 3.
   [davisagli]
+
+Fixes:
+
+- Minor cleanup (pep8, readability, ReST)
+  [jensens]
 
 
 2.0.3 (2015-05-11)
