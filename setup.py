@@ -33,7 +33,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
       ],
-    keywords='',
+    keywords='transform intelligenttext',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
     url='http://pypi.python.org/pypi/plone.intelligenttext',
