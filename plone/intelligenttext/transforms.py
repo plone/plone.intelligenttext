@@ -92,6 +92,10 @@ class WebIntelligentToHtmlConverter(object):
             url = url[:-len('&gt;')]
             linktext = linktext[:-len('&gt;')]
             end = '&gt;'
+        elif url.endswith('.') or url.endswith('?') or url.endswith('!'):
+            end = url[-1]
+            url = url[:-1]
+            linktext = linktext[:-1]
 
         # rel="nofollow" shall avoid spamming
         return '<a href="%s" rel="nofollow">%s</a>%s' % (url, linktext, end)
