@@ -11,7 +11,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Use pyenv for installing python versions on Travis.
+  [Rotonen]
 
 
 2.1.0 (2015-10-27)
