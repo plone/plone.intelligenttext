@@ -7,7 +7,10 @@ Changelog
 
 New:
 
-- *add item here*
+- Recognizes URLs embedded at the end of sentences.
+  The punctuation mark of the sentence is split from the URL.
+  Use brackets to force punctuation marks at the end of URLs.
+  [tarnap]
 
 Fixes:
 

@@ -145,6 +145,60 @@ https is accepted::
     >>> bprint(convertWebIntelligentPlainTextToHtml("https://localhost"))
     <a href="https://localhost" rel="nofollow">https://localhost</a>
 
+URLs at the end of sentences are recognized::
+
+    >>> sentence = "Go to http://some.webpa.ge."
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Go to <a href="http://some.webpa.ge" rel="nofollow">http://some.webpa.ge</a>.
+    >>> sentence = "Visit http://some.webpa.ge?"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Visit <a href="http://some.webpa.ge" rel="nofollow">http://some.webpa.ge</a>?
+    >>> sentence = "Follow http://some.webpa.ge!"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Follow <a href="http://some.webpa.ge" rel="nofollow">http://some.webpa.ge</a>!
+
+URLs with trailing slashes at the end of sentences are recognized::
+
+    >>> sentence = "Go to http://some.webpa.ge/."
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Go to <a href="http://some.webpa.ge/" rel="nofollow">http://some.webpa.ge/</a>.
+    >>> sentence = "Visit http://some.webpa.ge/?"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Visit <a href="http://some.webpa.ge/" rel="nofollow">http://some.webpa.ge/</a>?
+    >>> sentence = "Follow http://some.webpa.ge/!"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Follow <a href="http://some.webpa.ge/" rel="nofollow">http://some.webpa.ge/</a>!
+
+URLs with GET arguments at the end of sentences are recognized::
+
+    >>> sentence = "Go to http://some.webpa.ge/with/?get=arguments."
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Go to <a href="http://some.webpa.ge/with/?get=arguments" rel="nofollow">http://some.webpa.ge/with/?get=arguments</a>.
+    >>> sentence = "Visit http://some.webpa.ge/with/?get=arguments?"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Visit <a href="http://some.webpa.ge/with/?get=arguments" rel="nofollow">http://some.webpa.ge/with/?get=arguments</a>?
+    >>> sentence = "Follow http://some.webpa.ge/with/?get=arguments!"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Follow <a href="http://some.webpa.ge/with/?get=arguments" rel="nofollow">http://some.webpa.ge/with/?get=arguments</a>!
+
+URLs with named anchors at the end of sentences are recognized::
+
+    >>> sentence = "Go to http://some.webpa.ge/with/named/#anchors."
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Go to <a href="http://some.webpa.ge/with/named/#anchors" rel="nofollow">http://some.webpa.ge/with/named/#anchors</a>.
+    >>> sentence = "Visit http://some.webpa.ge/with/named/#anchors?"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Visit <a href="http://some.webpa.ge/with/named/#anchors" rel="nofollow">http://some.webpa.ge/with/named/#anchors</a>?
+    >>> sentence = "Follow http://some.webpa.ge/with/named/#anchors!"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Follow <a href="http://some.webpa.ge/with/named/#anchors" rel="nofollow">http://some.webpa.ge/with/named/#anchors</a>!
+
+You can put URLs in brackets to explicitly add punctuation marks to it::
+
+    >>> sentence = "Go to <http://some.webpa.ge/with/named/#anchors.>"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(sentence))
+    Go to &lt;<a href="http://some.webpa.ge/with/named/#anchors." rel="nofollow">http://some.webpa.ge/with/named/#anchors.</a>&gt;
+
 Unicode should be fine too::
 
     >>> text = u"Línk tö http://foo.ni"
