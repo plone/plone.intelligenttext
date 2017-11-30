@@ -15,7 +15,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Remove use of pyenv on Travis now that they upped their PyPy game and use the
+  tox-travis egg to simplify how the config file looks like.
+  [Rotonen]
 
 
 2.2 (2017-08-04)

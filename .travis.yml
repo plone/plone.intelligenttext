@@ -1,29 +1,19 @@
-dist: trusty
 language: python
 sudo: false
 
-env:
-  - TOXENV=py26 PYENV_VERSION="2.6.9" PYENV_VERSION_STRING="Python 2.6.9"
-  - TOXENV=py27 PYENV_VERSION="2.7.13" PYENV_VERSION_STRING="Python 2.7.13"
-  - TOXENV=py33 PYENV_VERSION="3.3.6" PYENV_VERSION_STRING="Python 3.3.6"
-  - TOXENV=py34 PYENV_VERSION="3.4.6" PYENV_VERSION_STRING="Python 3.4.6"
-  - TOXENV=py35 PYENV_VERSION="3.5.3" PYENV_VERSION_STRING="Python 3.5.3"
-  - TOXENV=py36 PYENV_VERSION="3.6.2" PYENV_VERSION_STRING="Python 3.6.2"
-  - TOXENV=pypy PYENV_VERSION="pypy2.7-5.8.0" PYENV_VERSION_STRING="PyPy 5.8.0"
-  - TOXENV=pypy3 PYENV_VERSION="pypy3.5-5.8.0" PYENV_VERSION_STRING="PyPy 5.8.0-beta0"
+python:
+  - 2.6
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5
+  - 3.6
+  - pypy
+  - pypy3
 
 cache:
   - pip
-  - directories:
-    - $HOME/.pyenv_cache
 
-before_install:
-  - |
-      if [[ -n "$PYENV_VERSION" ]]; then
-        wget https://github.com/praekeltfoundation/travis-pyenv/releases/download/0.4.0/setup-pyenv.sh
-        source setup-pyenv.sh
-      fi
+install: pip install tox-travis
 
-install: "pip install tox"
-
-script: "tox"
+script: tox
