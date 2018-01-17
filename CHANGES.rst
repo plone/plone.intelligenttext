@@ -5,14 +5,6 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Remove use of pyenv on Travis now that they upped their PyPy game and use the
