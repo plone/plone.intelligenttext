@@ -55,7 +55,8 @@ class WebIntelligentToHtmlConverter(object):
         # Finally, make \n's into br's
         text = text.replace('\n', '<br />')
 
-        text = text.encode('utf-8')
+        if not PY3:
+            text = text.encode('utf-8')
 
         return text
 

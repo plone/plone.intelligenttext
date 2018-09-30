@@ -73,7 +73,7 @@ Indentation should be preserved::
     ...       URL: http://foo.com"""
     >>> bprint(convertWebIntelligentPlainTextToHtml(orig))
     A test<br />&nbsp;&nbsp;URL: <a href="http://test.com" rel="nofollow">http://test.com</a><br />&nbsp;&nbsp;&nbsp;&nbsp;Mail: <a href="&#0109;ailto&#0058;test&#0064;test.com">test&#0064;test.com</a><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL: <a href="http://foo.com" rel="nofollow">http://foo.com</a>
-    >>> convertWebIntelligentPlainTextToHtml(orig).count(b'&nbsp;')
+    >>> convertWebIntelligentPlainTextToHtml(orig).count('&nbsp;')
     12
 
 HTML entities should be escaped::

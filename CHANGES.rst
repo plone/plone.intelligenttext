@@ -15,7 +15,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Return str from transform in Python 3.
+  [davisagli]
 
 
 2.2.1 (2018-01-17)
