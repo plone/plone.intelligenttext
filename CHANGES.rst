@@ -7,7 +7,7 @@ Changelog
 
 Breaking changes:
 
-- *add item here*
+- Dropped support for Python 3.3.
 
 New features:
 
