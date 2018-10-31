@@ -9,10 +9,6 @@ Breaking changes:
 
 - Dropped support for Python 3.3.
 
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Return str from transform in Python 3.
