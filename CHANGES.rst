@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.0 (2020-04-20)
+------------------
+
+New features:
+
+
+- Drop Python 2.6 support from tests.
+  Start testing on 3.7 and 3.8.
+  [maurits] (#9)
+
+
 3.0.0 (2018-10-31)
 ------------------
 
