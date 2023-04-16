@@ -6,8 +6,6 @@ optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
 
 
 def bprint(s):
-    if not isinstance(s, str):
-        s = s.decode()
     print(s.strip())
 
 
