@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import re
 import sys
 
@@ -17,7 +16,7 @@ def safe_decode(s, encoding='utf-8', errors='strict'):
     return s.decode(encoding)
 
 
-class WebIntelligentToHtmlConverter(object):
+class WebIntelligentToHtmlConverter:
     urlRegexp = re.compile(
         r'((?:ftp|https?)://(localhost|([12]?[0-9]{1,2}.){3}([12]?[0-9]{1,2})|(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z]))\b(?::\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)',
         re.I | re.S | re.U
@@ -99,7 +98,7 @@ class WebIntelligentToHtmlConverter(object):
             linktext = linktext[:-1]
 
         # rel="nofollow" shall avoid spamming
-        return '<a href="%s" rel="nofollow">%s</a>%s' % (url, linktext, end)
+        return f'<a href="{url}" rel="nofollow">{linktext}</a>{end}'
 
     @staticmethod
     def replaceEmail(match):
@@ -109,7 +108,7 @@ class WebIntelligentToHtmlConverter(object):
         # following unicode substitutions shall avoid email spam
         # crawlers to pickup email addresses
         url = url.replace('@', '&#0064;')
-        return '<a href="&#0109;ailto&#0058;%s">%s</a>' % (url, url)
+        return f'<a href="&#0109;ailto&#0058;{url}">{url}</a>'
 
     def indentWhitespace(self, match):
         """Make leading whitespace on a line into &nbsp; to preserve indents
