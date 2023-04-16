@@ -202,7 +202,7 @@ def convertHtmlToWebIntelligentPlainText(orig):
     text = text.replace("&gt;", ">")
     text = text.replace("&amp;", "&")
 
-    # Restore pres
+    # Restore `pre`s
     for marker, section in preSections.items():
         text = text.replace(marker, "\n\n" + section + "\n\n")
 

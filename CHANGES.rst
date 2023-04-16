@@ -192,7 +192,7 @@ Fixes:
 ---
 
 - Initial development by Martin Aspeli (optilude@gmx.net). For further
-  informations see http://dev.plone.org/collective/browser/intelligenttext/
+  information see http://dev.plone.org/collective/browser/intelligenttext/
 
 - The transform was originally based on the url_to_hyperlink transform from
   Ploneboard by Plone Solutions and others.
