@@ -2,7 +2,7 @@ import doctest
 import unittest
 
 
-optionflags = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
+optionflags = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
 
 
 def bprint(s):
@@ -12,11 +12,13 @@ def bprint(s):
 
 
 def test_suite():
-    return unittest.TestSuite([
-        doctest.DocFileSuite(
-            'README.rst',
-            globs={'bprint': bprint},
-            encoding='utf-8',
-            optionflags=optionflags,
-        )
-    ])
+    return unittest.TestSuite(
+        [
+            doctest.DocFileSuite(
+                "README.rst",
+                globs={"bprint": bprint},
+                encoding="utf-8",
+                optionflags=optionflags,
+            )
+        ]
+    )
