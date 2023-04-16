@@ -1,19 +1,10 @@
+from html.entities import name2codepoint
+
 import re
-import sys
-
-
-PY3 = sys.version_info[0] == 3
-if PY3:
-    from html.entities import name2codepoint
-
-    unicode = str
-    unichr = chr
-else:
-    from htmlentitydefs import name2codepoint
 
 
 def safe_decode(s, encoding="utf-8", errors="strict"):
-    if isinstance(s, unicode):
+    if isinstance(s, str):
         return s
     return s.decode(encoding)
 
@@ -44,7 +35,7 @@ class WebIntelligentToHtmlConverter:
         # Make funny characters into html entity defs
         for entity, codepoint in name2codepoint.items():
             if entity != "amp":
-                text = text.replace(unichr(codepoint), "&" + entity + ";")
+                text = text.replace(chr(codepoint), "&" + entity + ";")
 
         text = self.urlRegexp.subn(self.replaceURL, text)[0]
         text = self.emailRegexp.subn(self.replaceEmail, text)[0]
@@ -54,9 +45,6 @@ class WebIntelligentToHtmlConverter:
         text = text.replace("\r\n", "\n")
         # Finally, make \n's into br's
         text = text.replace("\n", "<br />")
-
-        if not PY3:
-            text = text.encode("utf-8")
 
         return text
 
