@@ -1,3 +1,0 @@
-Skip the test extra.
-Latest `tox` will fail on it.
-[maurits]

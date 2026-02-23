@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0a2 (2026-02-23)
+--------------------
+
+Tests:
+
+
+- Skip the test extra.
+  Latest `tox` will fail on it.
+  [maurits]
+
+
 5.0.0a1 (2025-11-19)
 --------------------
 
