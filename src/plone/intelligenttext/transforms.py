@@ -11,11 +11,12 @@ def safe_decode(s, encoding="utf-8", errors="strict"):
 
 class WebIntelligentToHtmlConverter:
     urlRegexp = re.compile(
-        r'((?:ftp|https?)://(localhost|([12]?[0-9]{1,2}.){3}([12]?[0-9]{1,2})|(?:[a-z0-9](?:[-a-z0-9]*[a-z0-9])?\.)+(?:com|edu|biz|org|gov|int|info|mil|net|name|museum|coop|aero|[a-z][a-z]))\b(?::\d+)?(?:\/[^"\'<>()\[\]{}\s\x7f-\xff]*(?:[.,?]+[^"\'<>()\[\]{}\s\x7f-\xff]+)*)?)',
+        r"(\b(?:(?:https?|ftp)://(?:(?:[\w](?:[-\w]*[\w])?\.)+[\w]{2,}|localhost|(?:\d{1,3}\.){3}\d{1,3})(?::\d+)?(?:/(?:(?:[^\s()<>]+|\([^\s()<>]*\))*(?:\([^\s()<>]*\)|[^\s`!()\[\]{}:'\".,<>?«»“”‘’]))?)?))",
         re.I | re.S | re.U,
     )
     emailRegexp = re.compile(
-        r'["=]?(\b[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4}\b)', re.I | re.S | re.U
+        r"(\b[\w._%+-]+@(?:(?:[\w](?:[-\w]*[\w])?\.)+[\w]{2,}|localhost)\b)",
+        re.I | re.S | re.U,
     )
     indentRegexp = re.compile(r"^(\s+)", re.M | re.U)
 
@@ -29,17 +30,21 @@ class WebIntelligentToHtmlConverter:
             text = ""
         text = safe_decode(text, errors="replace")
 
-        # Do &amp; separately, else, it may replace an already-inserted & from
-        # an entity with &amp;, so < becomes &lt; becomes &amp;lt;
+        # Do &amp;, &lt; and &gt; separately, else, it may replace an
+        # already-inserted & from an entity with &amp;,
+        # so < becomes &lt; becomes &amp;lt;
         text = text.replace("&", "&amp;")
-        # Make funny characters into html entity defs
-        for entity, codepoint in name2codepoint.items():
-            if entity != "amp":
-                text = text.replace(chr(codepoint), "&" + entity + ";")
+        text = text.replace("<", "&lt;")
+        text = text.replace(">", "&gt;")
 
         text = self.urlRegexp.subn(self.replaceURL, text)[0]
         text = self.emailRegexp.subn(self.replaceEmail, text)[0]
         text = self.indentRegexp.subn(self.indentWhitespace, text)[0]
+
+        # Make funny characters into html entity defs
+        for entity, codepoint in name2codepoint.items():
+            if entity not in ("amp", "lt", "gt", "quot"):
+                text = text.replace(chr(codepoint), "&" + entity + ";")
 
         # convert windows line endings
         text = text.replace("\r\n", "\n")

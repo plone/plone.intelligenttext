@@ -204,6 +204,20 @@ Unicode should be fine too::
     >>> text = u"Línk tö http://foo.ni"
     >>> bprint(convertWebIntelligentPlainTextToHtml(text))
     L&iacute;nk t&ouml; <a href="http://foo.ni" rel="nofollow">http://foo.ni</a>
+    
+New TLDs and IDNs are supported too::
+
+    >>> text = "Check http://example.eus, http://example.madrid, http://example.shop, http://example.online and http://example.store"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(text))
+    Check <a href="http://example.eus" rel="nofollow">http://example.eus</a>, <a href="http://example.madrid" rel="nofollow">http://example.madrid</a>, <a href="http://example.shop" rel="nofollow">http://example.shop</a>, <a href="http://example.online" rel="nofollow">http://example.online</a> and <a href="http://example.store" rel="nofollow">http://example.store</a>
+
+    >>> text = "Go to http://bücher.de and http://点看.com"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(text))
+    Go to <a href="http://b&uuml;cher.de" rel="nofollow">http://b&uuml;cher.de</a> and <a href="http://点看.com" rel="nofollow">http://点看.com</a>
+
+    >>> text = "Contact info@example.photography or jürgen@müller.de"
+    >>> bprint(convertWebIntelligentPlainTextToHtml(text))
+    Contact <a href="&#0109;ailto&#0058;info&#0064;example.photography">info&#0064;example.photography</a> or <a href="&#0109;ailto&#0058;j&uuml;rgen&#0064;m&uuml;ller.de">j&uuml;rgen&#0064;m&uuml;ller.de</a>
 
 Leading whitespace is converted to non breaking spaces to preserve indentation::
 
