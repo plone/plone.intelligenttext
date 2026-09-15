@@ -211,9 +211,9 @@ New TLDs and IDNs are supported too::
     >>> bprint(convertWebIntelligentPlainTextToHtml(text))
     Check <a href="http://example.eus" rel="nofollow">http://example.eus</a>, <a href="http://example.madrid" rel="nofollow">http://example.madrid</a>, <a href="http://example.shop" rel="nofollow">http://example.shop</a>, <a href="http://example.online" rel="nofollow">http://example.online</a> and <a href="http://example.store" rel="nofollow">http://example.store</a>
 
-    >>> text = "Go to http://bücher.de and http://点看.com"
+    >>> text = "Go to http://bücher.de and http://例子.测试"
     >>> bprint(convertWebIntelligentPlainTextToHtml(text))
-    Go to <a href="http://b&uuml;cher.de" rel="nofollow">http://b&uuml;cher.de</a> and <a href="http://点看.com" rel="nofollow">http://点看.com</a>
+    Go to <a href="http://b&uuml;cher.de" rel="nofollow">http://b&uuml;cher.de</a> and <a href="http://例子.测试" rel="nofollow">http://例子.测试</a>
 
     >>> text = "Contact info@example.photography or jürgen@müller.de"
     >>> bprint(convertWebIntelligentPlainTextToHtml(text))
