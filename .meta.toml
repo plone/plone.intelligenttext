@@ -8,3 +8,6 @@ commit-id = "2.8.0"
 [tox]
 skip_test_extra = true
 test_matrix = {"6.2" = ["*"]}
+envlist_lines = """
+    pypy3-plone62
+"""
